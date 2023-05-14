@@ -1,0 +1,22 @@
+{
+  "name": "wav2mp3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start with cron": "node index.js cron",
+    "start manually": "node index.js input/out/test"
+  },
+    "keywords": [
+    "wav",
+    "mp3",
+    "converter",
+    "encoder",
+    "lame"
+  ],
+  "dependencies": {
+    "chokidar": "^2.0.4",
+    "dotenv": "^16.0.3",
+    "node-cron": "^3.0.2",
+    "node-lame": "^1.2.0"
+  }
+}
