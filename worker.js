@@ -8,7 +8,7 @@ if (workerData.mode === 'cron') {
         console.log('start cron');
     })
 } else {
-    new wavToMp3(workerData);
+    // new wavToMp3(workerData);
     console.log('start manually');
 }
 
