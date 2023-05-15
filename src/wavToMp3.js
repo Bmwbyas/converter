@@ -1,27 +1,16 @@
 const path = require('path')
 const fs = require('fs')
-const chokidar = require('chokidar')
 const Lame = require("node-lame").Lame
 
 
 class wavToMp3 {
     constructor(props) {
-        this._props = props;
         this.config = {
-            inputFolder: this._props.path,
-            bitrate: 192
+            inputFolder: props.path,
+            bitrate: 192,
         }
-        this.watchFolder(false)
-    }
+        this.getFilesRecursive('input/out/test')
 
-    encodeIfNeeded(file) {
-        if (!this.fileIsWAV(file)) return
-        this.encodeFile(file)
-    }
-
-    fileIsWAV(filename) {
-        let extension = path.extname(filename)
-        return (extension === '.wav')
     }
 
     encodeFile(file) {
@@ -44,34 +33,22 @@ class wavToMp3 {
             });
     }
 
-    watchFolder(isWatch) {
+  getFilesRecursive(path) {
 
-        let options = {
-            ignored: /^\./,
-            persistent: isWatch,
-            interval: 2000,
-            cwd: '.',
+       fs.readdir(path, (err, files) => {
+            if(err) throw err;
 
+            for (let file of files){
+                if(file.includes('.wav')){
+                    this.encodeFile(path+'/'+file)
+                }
+                if(!file.includes('.')){
+                    this.getFilesRecursive(path+'/'+file)
+                }
+            }
         }
-
-        let that = this
-        let watcher = chokidar.watch(this.config.inputFolder, options)
-
-        watcher
-            .on('add', function (path) {
-                that.encodeIfNeeded(path)
-                // console.log(that.config.inputFolder)
-            })
-            .on('change', function (path) {
-                that.encodeIfNeeded(path)
-            })
-            .on('unlink', function (path) {
-                console.log('File', path, 'has been removed')
-            })
-            .on('error', function (error) {
-                console.error('Error happened', error)
-            })
-    }
+    );
+}
 }
 
 module.exports = {wavToMp3}
