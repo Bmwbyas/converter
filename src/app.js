@@ -1,24 +1,6 @@
-const cron = require("node-cron");
 const {Worker, isMainThread, parentPort, workerData} = require('worker_threads');
-
-const {createPath} = require("./src/createPath");
-const {createFolder} = require("./src/createFolder");
-const {encoder} = require("./src/encoder");
-const {getFilesRecursive} = require("./src/getFilesRecursive");
-
-const dir = createPath()
-createFolder(dir)
-
-if (process.argv[2] === 'cron') {
-    cron.schedule('1 * * * * *', () => {
-        app()
-        console.log('start cron');
-    })
-} else {
-    app()
-    console.log('start manually');
-}
-
+const {getFilesRecursive} = require("./getFilesRecursive");
+const {encoder} = require("./encoder");
 
 function app() {
     if (isMainThread) {
@@ -50,5 +32,3 @@ function app() {
         });
     }
 }
-
-

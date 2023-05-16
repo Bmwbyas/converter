@@ -1,18 +1,17 @@
+const fs = require("fs");
 
-const getFilesRecursive=(path)=> {
 
-    fs.readdir(path, (err, files) => {
-            if(err) throw err;
-
-            for (let file of files){
-
-                if(file.includes('.wav')){
-                    // this.encodeFile(path+'/'+file)
-                }
-                if(!file.includes('.')){
-                    this.getFilesRecursive(path+'/'+file)
-                }
-            }
-        }
-    );
+function getFilesRecursive(dir) {
+    const dirents = fs.readdirSync(dir)
+    const files = dirents
+        .filter(dirent => dirent.slice(-4) === '.wav')
+        .map(dirent => dir+"/"+dirent )
+    const folders = dirents.filter(dirent => !dirent.includes('.'))
+    for (const folder of folders) {
+        const folderPath = dir+"/"+folder
+        files.push(...getFilesRecursive(folderPath))
+    }
+    return files
 }
+
+module.exports = {getFilesRecursive}
