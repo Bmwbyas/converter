@@ -4,6 +4,7 @@ const fs = require('fs');
 const {parentPort} = require("worker_threads");
 
 const encoder=(filePath,index)=>{
+
     const pathMp3 = path.dirname(filePath) + '/' + path.parse(filePath).name + '.mp3'
     const encoder = new Lame({
         output: pathMp3,
