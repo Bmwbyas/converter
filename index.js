@@ -6,7 +6,7 @@ const {app} = require("./src/app");
 const arrMessage=[]
 const dir = createPath()
 createFolder(dir)
-
+// setTimeout(()=>{console.log(arrMessage)},1000)
 if (process.argv[2] === 'cron') {
     cron.schedule('1 * * * * *', () => {
       app(dir,arrMessage)

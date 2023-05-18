@@ -1,6 +1,6 @@
 
 async function sendFile(arrMessage) {
-
+try{
     const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'POST',
         body: JSON.stringify({
@@ -14,7 +14,9 @@ async function sendFile(arrMessage) {
     })
     let result = await response.json();
     console.log(result)
-
+}catch (e){
+    console.log('error', e.message)
+}
 }
 
 module.exports = {sendFile}
